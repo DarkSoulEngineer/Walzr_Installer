@@ -175,6 +175,39 @@ if (-not ($env:Path -split ";" | Where-Object { $_ -eq $zebarInstallDir })) {
     }
 }
 
+# ================================
+# zebar_neon_theme install script
+# ================================
+
+# Dynamically get current user's home directory
+$userProfile = $env:USERPROFILE
+$zebarDir = Join-Path $userProfile ".glzr\zebar"
+
+# Ensure the Zebar directory exists
+New-Item -ItemType Directory -Force -Path $zebarDir | Out-Null
+
+# Clone zebar_neon_theme directly inside .glzr\zebar
+$themeRepoDir = Join-Path $zebarDir "zebar_neon_theme"
+if (-not (Test-Path $themeRepoDir)) {
+    git clone https://github.com/DarkSoulEngineer/zebar_neon_theme $themeRepoDir
+} else {
+    Write-Host "Repository already cloned. Skipping clone."
+}
+
+# Move settings.json one folder down into .glzr\zebar
+$sourceSettings = Join-Path $themeRepoDir "settings.json"
+$destSettings = Join-Path $zebarDir "settings.json"
+
+if (Test-Path $sourceSettings) {
+    Move-Item $sourceSettings $destSettings -Force
+    Write-Host "✅ settings.json moved to $zebarDir"
+} else {
+    Write-Warning "settings.json not found in $themeRepoDir"
+}
+
+Write-Host "✅ zebar_neon_theme setup complete inside $zebarDir"
+
+
 # ------------------------------
 # 🔟 Run GlazeWM
 # ------------------------------
