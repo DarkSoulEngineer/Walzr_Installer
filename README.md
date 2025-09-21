@@ -1,6 +1,6 @@
 # Walzr Installer
 
-This repository contains the installer script for **Walzr**. You can install it quickly using PowerShell.
+This repository contains the installer script for **Walzr_Installer**. You can install it quickly using PowerShell.
 
 ## Quick Install
 
