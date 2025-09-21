@@ -208,6 +208,20 @@ if (Test-Path $sourceSettings) {
 Write-Host "✅ zebar_neon_theme setup complete inside $zebarDir"
 
 
+# ================== GlazeWM Setup ==================
+$glazewmDir = Join-Path $userProfile ".glzr\glazewm"
+New-Item -ItemType Directory -Force -Path $glazewmDir | Out-Null
+
+$configUrl = "https://raw.githubusercontent.com/DarkSoulEngineer/glazewm_walzr/refs/heads/main/config.yaml"
+$configDest = Join-Path $glazewmDir "config.yaml"
+
+try {
+    Invoke-WebRequest -Uri $configUrl -OutFile $configDest -UseBasicParsing
+    Write-Host "✅ config.yaml downloaded to $glazewmDir"
+} catch {
+    Write-Warning "⚠️ Failed to download config.yaml from $configUrl"
+}
+
 # ------------------------------
 # 🔟 Run GlazeWM
 # ------------------------------
